@@ -1,0 +1,1 @@
+So basically just want to make a locally-hosted google drive effectively and was like "you know, sounds like a fun project".
