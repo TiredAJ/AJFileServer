@@ -4,3 +4,27 @@
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - db
+
+  db:
+    container_name: pg-FileServer
+    image: postgres:14.13-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PW}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./dataset:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+      
+volumes:
+  pgdata:
